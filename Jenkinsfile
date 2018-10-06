@@ -36,8 +36,8 @@ node {
     cd ./backend;go build -o api
   }
     
-  stage('Deploy Backend') {
-    tmp_dir = "/tmp/bigindex_ui/${env.BUILD_NUMBER}"
+  stage('Deploy Backend'){
+    tmp_dir = "/tmp/empa/${env.BUILD_NUMBER}"
     sshagent(ssh_crendentials) {
       Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
       sh "scp api ubuntu@$54.173.221.212:${tmp_dir}/"
@@ -59,4 +59,5 @@ node {
       ssh_exec "'ln -sf ${deployment_dir} ${working_dir}'"
     }
   }
+ }
 }
