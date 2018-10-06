@@ -24,7 +24,10 @@ workspace_path = "${env.JENKINS_HOME}/workspace/${env.JOB_BASE_NAME}/"
 automatic = false
 
 node {
-  cleanWs deleteDirs: true
   checkout scm
-
+  ws("/home/ubuntu/empa/"){
+  cleanWs deleteDirs: true
+  stage('Build backend') {
+    
+     
 
