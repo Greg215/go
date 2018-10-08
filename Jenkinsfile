@@ -40,9 +40,9 @@ node {
       tmp_dir = "/tmp/empa/${env.BUILD_NUMBER}"
       sshagent(ssh_crendentials) {
         Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
-        sh "scp api ubuntu@$54.173.221.212:${tmp_dir}/"
+        sh "scp api ubuntu@54.173.221.212:${tmp_dir}/"
         def new_deployment = sh (returnStdout: true,
-               script: """ssh ${deployment_user}@${edge_node} bash <<EOF
+               script: """ssh ${deployment_user}@54.173.221.212 bash <<EOF
                if [[ \\\$(basename \\\$(readlink ${working_dir})) = 'empa_backend_green' ]];
                then
                   echo 'empa_backend_blue';
