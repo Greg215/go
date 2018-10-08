@@ -47,7 +47,7 @@ node {
                                           echo 'empa_backend_green';
                                         fi""").trim()
             echo "${new_deployment}"
-            deployment_dir = "\/home\/${deployment_user}\/${new_deployment}"
+            deployment_dir = '''/home/${deployment_user}/${new_deployment}'''
             Utils.ssh_exec "'rm -rf ${deployment_dir}'"
             Utils.ssh_exec "'mkdir ${deployment_dir}'"
             Utils.ssh_exec "'cp -R ${tmp_dir}/api ${deployment_dir}'"
