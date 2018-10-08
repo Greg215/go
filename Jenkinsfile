@@ -32,8 +32,8 @@ node {
     }
 
     stage('Deploy Api'){
-      tmp_dir = "/tmp/empa/${env.BUILD_NUMBER}"
-      working_dir = working_dir
+      tmp_dir = '/tmp/empa/${env.BUILD_NUMBER}'
+      working_dir = empa_working_dir
       sshagent(ssh_crendentials) {
             Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
             sh "scp api ${deployment_user}@${node1}:${tmp_dir}/"
