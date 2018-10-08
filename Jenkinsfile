@@ -39,7 +39,7 @@ node {
             Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
             sh """scp api ${deployment_user}@${node1}:${tmp_dir}"""
 	    def new_deployment = sh (returnStdout: true,
-                                     script: """ssh ${deployment_user}\@${node1} bash <<EOF
+                                     script: """ssh ${deployment_user}@${node1} bash <<EOF
                                         if [[ \\\$(basename \\\$(readlink ${working_dir})) = 'empa_backend_green' ]];
                                         then
                                           echo 'empa_backend_blue';
