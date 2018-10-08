@@ -24,10 +24,10 @@ workspace_path = "${env.JENKINS_HOME}/workspace/${env.JOB_BASE_NAME}/"
 automatic = false
 
 node {
-  checkout scm
-  ws("${WORKSPACE}/backend/"){
-    cleanWs deleteDirs: true
     stage('Build Backend') {
+      checkout scm
+      ws("${WORKSPACE}/backend/"){
+      cleanWs deleteDirs: true
       git changelog: false, credentialsId: key_ubuntu, branch: 'master',
       poll: false, url: ui_repo_url
       sh "git checkout ${env.git_path} -b current_src"
