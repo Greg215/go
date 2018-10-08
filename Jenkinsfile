@@ -3,8 +3,8 @@
 deployment_user = "ubuntu"
 node_ip = "54.173.221.212"
 
-ui_repo_url = "ssh://git@github.com:Greg215/go-angular.git"
-ui_working_dir = "/home/ubuntu/empa"
+repo_url = "ssh://git@github.com:Greg215/go-angular.git"
+working_dir = "/home/ubuntu/empa"
 
 workspace_path = "${env.JENKINS_HOME}/workspace/${env.JOB_BASE_NAME}/"
 automatic = false
@@ -28,9 +28,10 @@ node {
     checkout scm
     ws("${WORKSPACE}/backend/"){
     cleanWs deleteDirs: true
+
     stage('Build Backend') {
       git changelog: false, credentialsId: key_guthub, branch: 'master',
-      poll: false, url: ui_repo_url
+      poll: false, url: repo_url
       sh "git checkout ${env.git_path} -b current_src"
       sh "git rev-parse --short HEAD > .git/commit-id"
       commit_id = readFile('.git/commit-id').trim()
