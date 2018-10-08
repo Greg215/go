@@ -8,6 +8,7 @@ properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKe
 
 
 node {
+  if (env.node1 == '0.0.0.0'){error 'ip must be specified'}
   cleanWs deleteDirs: true
   checkout scm
   load 'settings.groovy'
@@ -36,8 +37,8 @@ node {
       working_dir = empa_working_dir
       sshagent(ssh_crendentials) {
             Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
-            sh "'scp api ${deployment_user}@${node1}:${tmp_dir}/'"
-            def new_deployment = sh (returnStdout: true,
+            sh 'scp api ${deployment_user}@${node1}:${tmp_dir}/'
+	    def new_deployment = sh (returnStdout: true,
                                      script: """ssh ${deployment_user}@${node1} bash <<EOF
                                         if [[ \\\$(basename \\\$(readlink ${working_dir})) = 'empa_backend_green' ]];
                                         then
