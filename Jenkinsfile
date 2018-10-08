@@ -32,7 +32,7 @@ node {
     }
 
     stage('Deploy Api'){
-      tmp_dir = '/tmp/empa/${env.BUILD_NUMBER}'
+      tmp_dir = empa_tmp_dir 
       working_dir = empa_working_dir
       sshagent(ssh_crendentials) {
             Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
