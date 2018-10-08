@@ -1,21 +1,7 @@
 #!groovy
 
-awscli = docker.build('awscli', '-f Dockerfile .')
-
-def ssh_exec(cmd){
-  return sh (returnStdout: true,
-                       script: """ssh ubuntu@54.173.221.212 ${cmd}"""
-                      ).trim()
-}
-
-def green_or_blue(app_name){
-  def current = sh(returnStdout: true,
-            script: "ssh ubuntu@54.173.221.212 'readlink /home/ubuntu/empa/${app_name} | xargs basename 2> /dev/null || echo 'green''"
-           ).trim()
-  return current.endsWith("green") == true ? "blue" : "green"
-}
-
 deployment_user = "ubuntu"
+node_ip = "54.173.221.212"
 
 ui_repo_url = "ssh://git@github.com:Greg215/go-angular.git"
 ui_working_dir = "/home/ubuntu/empa"
@@ -23,12 +9,27 @@ ui_working_dir = "/home/ubuntu/empa"
 workspace_path = "${env.JENKINS_HOME}/workspace/${env.JOB_BASE_NAME}/"
 automatic = false
 
+awscli = docker.build('awscli', '-f Dockerfile .')
+
+def ssh_exec(cmd){
+  return sh (returnStdout: true,
+                       script: """ssh ${deployment_user}@${node_ip} ${cmd}"""
+                      ).trim()
+}
+
+def green_or_blue(app_name){
+  def current = sh(returnStdout: true,
+            script: "ssh ${deployment_user}@${node_ip} 'readlink /home/ubuntu/empa/${app_name} | xargs basename 2> /dev/null || echo 'green''"
+           ).trim()
+  return current.endsWith("green") == true ? "blue" : "green"
+}
+
 node {
+    checkout scm
+    ws("${WORKSPACE}/backend/"){
+    cleanWs deleteDirs: true
     stage('Build Backend') {
-      checkout scm
-      ws("${WORKSPACE}/backend/"){
-      cleanWs deleteDirs: true
-      git changelog: false, credentialsId: key_ubuntu, branch: 'master',
+      git changelog: false, credentialsId: key_guthub, branch: 'master',
       poll: false, url: ui_repo_url
       sh "git checkout ${env.git_path} -b current_src"
       sh "git rev-parse --short HEAD > .git/commit-id"
@@ -40,9 +41,9 @@ node {
       tmp_dir = "/tmp/empa/${env.BUILD_NUMBER}"
       sshagent(ssh_crendentials) {
         ssh_exec "'mkdir -p ${tmp_dir}'"
-        sh "scp api ubuntu@54.173.221.212:${tmp_dir}/"
+        sh "scp api ${deployment_user}@${node_ip}:${tmp_dir}/"
         def new_deployment = sh (returnStdout: true,
-               script: """ssh ${deployment_user}@54.173.221.212 bash <<EOF
+               script: """ssh ${deployment_user}@${node_ip} bash <<EOF
                if [[ \\\$(basename \\\$(readlink ${working_dir})) = 'empa_backend_green' ]];
                then
                   echo 'empa_backend_blue';
