@@ -36,10 +36,10 @@ node {
       cd ./backend;go build -o api
     }
     
-    stage('Deploy Backend'){
+    stage('Deploy Backend') {
       tmp_dir = "/tmp/empa/${env.BUILD_NUMBER}"
       sshagent(ssh_crendentials) {
-        Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
+        ssh_exec "'mkdir -p ${tmp_dir}'"
         sh "scp api ubuntu@54.173.221.212:${tmp_dir}/"
         def new_deployment = sh (returnStdout: true,
                script: """ssh ${deployment_user}@54.173.221.212 bash <<EOF
