@@ -1,5 +1,5 @@
-ssh_crendentials = 'key_ubuntu'
-stack_crenetials = 'key_ubuntu'
+ssh_crendentials = ['key_ubuntu']
+stack_crenetials = ['key_ubuntu']
 repo_credentials = 'key_guthub'
 
 ansible_creds_id = 'ansible-vault-pass'
