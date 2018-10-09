@@ -8,9 +8,7 @@ ENV GOLANG_DOWNLOAD_SHA256 702ad90f705365227e902b42d91dd1a40e48ca7f67a2f4b2fd052
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 
-RUN yum install -y
-                  tar                                              \
-                  g++                                              \
+RUN yum install -y g++                                              \
                   libc6-dev                                        \
                   make                                             \
                   python-setuptools                                \
