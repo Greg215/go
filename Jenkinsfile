@@ -26,8 +26,8 @@ node {
     stage('Build Backend') {
       git changelog: false, credentialsId: key_guthub, branch: 'master',
       poll: false, url: repo_url
-      sh "git checkout ${env.git_path} -b current_src"
-      sh "git rev-parse --short HEAD > .git/commit-id"
+      sh 'git checkout ${env.git_path} -b current_src'
+      sh 'git rev-parse --short HEAD > .git/commit-id'
       commit_id = readFile('.git/commit-id').trim()
       cd ./backend;go build -o api
     }
@@ -36,8 +36,8 @@ node {
       tmp_dir = empa_tmp_dir 
       working_dir = empa_working_dir
       sshagent(ssh_crendentials) {
-            Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
-            sh "scp api ${deployment_user}@${node1}:${tmp_dir}"
+            Utils.ssh_exec ''mkdir -p ${tmp_dir}''
+            sh 'scp api ${deployment_user}@${node1}:${tmp_dir}'
 	    def new_deployment = sh (returnStdout: true,
                                      script: """ssh ${deployment_user}@${node1} bash <<EOF
                                         if [[ \\\$(basename \\\$(readlink ${working_dir})) = 'empa_backend_green' ]];
