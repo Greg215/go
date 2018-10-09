@@ -1,4 +1,3 @@
-#!/usr/bin/env groovy
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')),
             parameters([string(defaultValue: '0.0.0.0', description: '54.173.221.212', name: 'node1'),
                         string(defaultValue: 'origin/master', description: '', name: 'git_path'),
