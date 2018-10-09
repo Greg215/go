@@ -26,10 +26,10 @@ node {
     stage('Build Backend') {
       git changelog: false, credentialsId: key_guthub, branch: 'master',
       poll: false, url: repo_url
-      sh "'git checkout ${env.git_path} -b current_src' "
-      sh "'git rev-parse --short HEAD > .git/commit-id' "
+      sh "git checkout ${env.git_path} -b current_src"
+      sh "git rev-parse --short HEAD > .git/commit-id"
       commit_id = readFile('.git/commit-id').trim()
-      cd ./backend;go build -o api
+      sh "cd ./backend;go build -o api"
     }
   }
 } 
