@@ -1,3 +1,4 @@
+awscli = docker.build('awscli', '-f Dockerfile .')
 
 @NonCPS
 def finder(text, pattern) {
