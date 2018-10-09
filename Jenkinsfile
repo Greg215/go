@@ -33,7 +33,9 @@ node {
       sh "git checkout ${env.git_path} -b current_src"
       sh "git rev-parse --short HEAD > .git/commit-id"
       commit_id = readFile('.git/commit-id').trim()
-      sh "go get github.com/gorilla/mux github.com/mattn/go-sqlite3 github.com/rs/cors"
+      sh "go get github.com/gorilla/mux"
+      sh "go get github.com/mattn/go-sqlite3"
+      sh "go get  github.com/rs/cors"
       sh "cd ./backend;go build -o api"
     }
  
