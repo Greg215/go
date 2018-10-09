@@ -24,7 +24,7 @@ node {
  
   Utils = load 'scripts.groovy'
  
-  ws("${WORKSPACE}/"){
+  ws("${WORKSPACE}/empa/"){
    withEnv(["GOPATH=${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"]) {
                 env.PATH="${GOPATH}/bin:$PATH"
     stage('Build Backend') {
