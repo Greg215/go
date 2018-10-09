@@ -1,15 +1,12 @@
 #! groovy
 
-properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '10')),
-            parameters([string(defaultValue: '0.0.0.0', description: '54.173.221.212', name: 'node1'),
-                        string(defaultValue: 'origin/master', description: '', name: 'git_path'),
-                        string(defaultValue: 'test_2018', description: 'Name of eco system (test_2017 or test_2018)', name: 'ecosystem')
-                       ])
-           ])
+properties(parameters([string(defaultValue: '0.0.0.0', description: '54.173.221.212', name: 'node1'),
+                       string(defaultValue: 'origin/master', description: '', name: 'git_path'),
+                       string(defaultValue: 'test_2018', description: 'Name of eco system (test_2017 or test_2018)', name: 'ecosystem')
+                       ]))
 
 
 node {
-  if (env.node1 == '0.0.0.0'){error 'ip must be specified'}
   cleanWs deleteDirs: true
   checkout scm
   load 'settings.groovy'
@@ -22,7 +19,9 @@ node {
         error 'Undefined ecosystem!'
       }
   }
+ 
   Utils = load 'scripts.groovy'
+ 
   ws("${WORKSPACE}/empa/"){
     stage('Build Backend') {
       git changelog: false, credentialsId: key_guthub, branch: 'master',
