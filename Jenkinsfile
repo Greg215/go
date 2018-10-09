@@ -38,8 +38,8 @@ node {
       tmp_dir = empa_tmp_dir
       working_dir = empa_working_dir
       sshagent(ssh_crendentials) {
-            Utils.ssh_exec ''mkdir -p ${tmp_dir}''
-            sh 'scp api ${deployment_user}@${node1}:${tmp_dir}'
+            Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
+            sh "scp api ${deployment_user}@${node1}:${tmp_dir}"
             def new_deployment = sh (returnStdout: true,
                                      script: """ssh ${deployment_user}@${node1} bash <<EOF
                                         if [[ \\\$(basename \\\$(readlink ${working_dir})) = 'empa_backend_green' ]];
@@ -49,7 +49,7 @@ node {
                                           echo 'empa_backend_green';
                                         fi""").trim()
             echo "${new_deployment}"
-            deployment_dir = ''/home/${deployment_user}/${new_deployment}''
+            deployment_dir = "/home/${deployment_user}/${new_deployment}"
             Utils.ssh_exec "'rm -rf ${deployment_dir}'"
             Utils.ssh_exec "'mkdir ${deployment_dir}'"
             Utils.ssh_exec "'cp -R ${tmp_dir}/api ${deployment_dir}'"
