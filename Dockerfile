@@ -2,9 +2,8 @@ FROM centos:latest
 RUN yum -y update && yum install -y epel-release openssl python python-devel gcc openssl-devel openssl-libs libffi-devel git && yum install -y python2-pip wget
 RUN pip install --upgrade awscli boto boto3 s3cmd python-magic requests
 
-ENV GOLANG_VERSION 1.7
+ENV GOLANG_VERSION 1.11
 ENV GOLANG_DOWNLOAD_URL https://golang.org/dl/go$GOLANG_VERSION.linux-amd64.tar.gz
-ENV GOLANG_DOWNLOAD_SHA256 702ad90f705365227e902b42d91dd1a40e48ca7f67a2f4b2fd052aaa4295cd95
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 
