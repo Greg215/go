@@ -11,12 +11,12 @@ ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 RUN yum install -y g++                                              \
                   libc6-dev                                        \
                   make                                             \
-                  python-setuptools                                \
- && easy_install supervisor                                        \
+                  python-setuptools                               
+ RUN easy_install supervisor                                        \
  && mkdir -p /var/log/supervisor                                   \
  && echo_supervisord_conf > /etc/supervisord.conf                  \
  && curl -fsSL "$GOLANG_DOWNLOAD_URL" -o golang.tar.gz             \
- && echo "$GOLANG_DOWNLOAD_SHA256  golang.tar.gz" | sha256sum -c - \
+ && echo "$GOLANG_DOWNLOAD_SHA256  golang.tar.gz"                  \
  && tar -C /usr/local -xzf golang.tar.gz                           \
  && rm golang.tar.gz                                               \
  && mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH" \
