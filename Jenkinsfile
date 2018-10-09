@@ -1,7 +1,7 @@
 #! groovy
 
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '2')),
-           parameters([string(defaultValue: '0.0.0.0', description: '54.173.221.212', name: 'node1'),
+           parameters([string(defaultValue: '0.0.0.0', description: '54.173.221.212', name: 'edge_node'),
                        string(defaultValue: 'origin/master', description: '', name: 'git_path'),
                        string(defaultValue: 'test_2018', description: 'Name of eco system (test_2017 or test_2018)', name: 'ecosystem'),
                        ])
@@ -46,7 +46,7 @@ node {
             Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
             sh "scp api ${deployment_user}@${node1}:${tmp_dir}"
             def new_deployment = sh (returnStdout: true,
-                                     script: """ssh ${deployment_user}@${node1} bash <<EOF
+                                     script: """ssh ${deployment_user}@${edge_node} bash <<EOF
                                         if [[ \\\$(basename \\\$(readlink ${working_dir})) = 'empa_backend_green' ]];
                                         then
                                           echo 'empa_backend_blue';
