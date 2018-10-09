@@ -31,4 +31,5 @@ node {
       commit_id = readFile('.git/commit-id').trim()
       cd ./backend;go build -o api
     }
-  }} 
+  }
+} 
