@@ -26,7 +26,7 @@ node {
  
   ws("${WORKSPACE}/empa/"){
     stage('Build Backend') {
-      git changelog: false, credentialsId: key_guthub, branch: 'master',
+      git changelog: false, credentialsId: repo_credentials, branch: 'master',
       poll: false, url: repo_url
       sh "git checkout ${env.git_path} -b current_src"
       sh "git rev-parse --short HEAD > .git/commit-id"
