@@ -1,7 +1,7 @@
 #! groovy
 
 properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '2')),
-           parameters([string(defaultValue: '0.0.0.0', description: '54.173.221.212', name: 'edge_node'),
+           parameters([string(defaultValue: '54.173.221.212', description: '54.173.221.212', name: 'edge_node'),
                        string(defaultValue: 'origin/master', description: '', name: 'git_path'),
                        string(defaultValue: 'test_2018', description: 'Name of eco system (test_2017 or test_2018)', name: 'ecosystem'),
                        ])
@@ -58,7 +58,7 @@ node {
             Utils.ssh_exec "'rm -rf ${deployment_dir}'"
             Utils.ssh_exec "'mkdir ${deployment_dir}'"
             Utils.ssh_exec "'cp -R ${tmp_dir}/api ${deployment_dir}'"
-            Utils.ssh_exec "'kill $(lsof -t -i:9000)'"
+            Utils.ssh_exec "'kill ${lsof -t -i:9000}'"
             Utils.ssh_exec "'cd ${deployment_dir}' && './api &'"
             Utils.ssh_exec "'rm -rf ${tmp_dir}'"
             Utils.ssh_exec "'rm -rf ${working_dir}'"
