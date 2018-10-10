@@ -44,7 +44,7 @@ node {
       working_dir = empa_working_dir
       sshagent(ssh_crendentials) {
             Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
-            sh "scp ./backend/api ./backend/run.sh ${deployment_user}@${edge_node}:${tmp_dir}"
+            sh "scp ./backend/api ${deployment_user}@${edge_node}:${tmp_dir}"
             def new_deployment = sh (returnStdout: true,
                                      script: """ssh ${deployment_user}@${edge_node} bash <<EOF
                                         if [[ \\\$(basename \\\$(readlink ${working_dir})) = 'empa_backend_green' ]];
@@ -66,5 +66,20 @@ node {
       }
     }
    }
+
+   stage('Build Frontend'){
+     filename = "ng_frondend_${commit_id}.zip"
+     nodejs(nodeJSInstallationName: 'empa') {
+	  sh "cd ./frontend;npm install"
+     }
+     sh "./node_modules/.bin/ng build"
+     // Keep revision info
+     version_file = "${WORKSPACE}/dist/version.txt"
+     sh "echo 'Branch:' > ${version_file}"
+     sh "echo ${env.git_path} >> ${version_file}"
+     sh "echo 'Revision:' >> ${version_file}"
+     sh "git rev-parse HEAD >> ${version_file}"
+     zip dir: 'dist/', glob: '', zipFile: "${filename}"
+    }
   }
-} 
+ }
