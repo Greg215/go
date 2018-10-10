@@ -58,7 +58,7 @@ node {
             Utils.ssh_exec "'rm -rf ${deployment_dir}'"
             Utils.ssh_exec "'mkdir ${deployment_dir}'"
             Utils.ssh_exec "'cp -R ${tmp_dir}/api ${deployment_dir}'"
-            Utils.ssh_exec "'lsof -t -l:9000 | xargs -n 1 | kill'"
+            Utils.ssh_exec "'lsof -t -l:9000 | xargs kill'"
             Utils.ssh_exec "'cd ${deployment_dir}' && './api &'"
             Utils.ssh_exec "'rm -rf ${tmp_dir}'"
             Utils.ssh_exec "'rm -rf ${working_dir}'"
