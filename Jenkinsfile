@@ -78,7 +78,7 @@ node {
       sh "echo ${env.git_path} >> ${version_file}"
       sh "echo 'Revision:' >> ${version_file}"
       sh "git rev-parse HEAD >> ${version_file}"
-      zip dir: '/frontend/dist/', glob: '', zipFile: "${filename}"
+      zip dir: 'frontend/dist/', glob: '', zipFile: "${filename}"
      }
    
    stage('Deploy Frontend'){
