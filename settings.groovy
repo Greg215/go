@@ -1,7 +1,8 @@
 deployment_user = "ubuntu"
 
 repo_url = "ssh://git@github.com/Greg215/go-angular.git"
-empa_working_dir = "/home/ubuntu/empa"
+empa_backend_dir = "/home/ubuntu/empa_backend"
+empa_frontend_dir = "/home/ubuntu/empa_frontend"
 empa_tmp_dir = "/tmp/empa"
 def get_ecosystem(env){
   if (env.ecosystem == 'test_2017'){

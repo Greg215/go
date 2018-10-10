@@ -41,13 +41,13 @@ node {
  
     stage('Deploy Api'){
       tmp_dir = empa_tmp_dir
-      working_dir = empa_working_dir
+      working_dir_backend = empa_backend_dir
       sshagent(ssh_crendentials) {
             Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
             sh "scp ./backend/api ${deployment_user}@${edge_node}:${tmp_dir}"
             def new_deployment = sh (returnStdout: true,
                                      script: """ssh ${deployment_user}@${edge_node} bash <<EOF
-                                        if [[ \\\$(basename \\\$(readlink ${working_dir})) = 'empa_backend_green' ]];
+                                        if [[ \\\$(basename \\\$(readlink ${working_dir_backend})) = 'empa_backend_green' ]];
                                         then
                                           echo 'empa_backend_blue';
                                         else
@@ -61,8 +61,8 @@ node {
             Utils.ssh_exec "'lsof -t -i:9000 | xargs -n 1 kill'"
             Utils.ssh_exec "'daemon -o -- ${deployment_dir}/api'"
             Utils.ssh_exec "'rm -rf ${tmp_dir}'"
-            Utils.ssh_exec "'rm -rf ${working_dir}'"
-            Utils.ssh_exec "'ln -sf ${deployment_dir} ${working_dir}'"
+            Utils.ssh_exec "'rm -rf ${working_dir_backend}'"
+            Utils.ssh_exec "'ln -sf ${deployment_dir} ${working_dir_backend}'"
       }
     }
    }
@@ -83,7 +83,7 @@ node {
    
    stage('Deploy Frontend'){
      tmp_dir = empa_tmp_dir
-     working_dir = empa_working_dir
+     working_dir_frontend = empa_frontend_dir
      sshagent(ssh_crendentials) {
             Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
             sh "scp ${filename} ${deployment_user}@${edge_node}:${tmp_dir}"
@@ -91,7 +91,7 @@ node {
             Utils.ssh_exec "'cd ${tmp_dir} && rm -f *.zip'"
             def new_deployment = sh (returnStdout: true,
                                      script: """ssh ${deployment_user}@${edge_node} bash <<EOF
-                                        if [[ \\\$(basename \\\$(readlink ${working_dir})) = 'empa_frontend_green' ]];
+                                        if [[ \\\$(basename \\\$(readlink ${working_dir_frontend})) = 'empa_frontend_green' ]];
                                         then
                                           echo 'empa_frontend_blue';
                                         else
@@ -103,8 +103,8 @@ node {
             Utils.ssh_exec "'mkdir ${deployment_dir}'"
             Utils.ssh_exec "'cp -R ${tmp_dir}/* ${deployment_dir}'"
 	    Utils.ssh_exec "'rm -rf ${tmp_dir}'"
-            Utils.ssh_exec "'rm -rf ${working_dir}'"
-            Utils.ssh_exec "'ln -sf ${deployment_dir} ${working_dir}'"
+            Utils.ssh_exec "'rm -rf ${working_dir_frontend}'"
+            Utils.ssh_exec "'ln -sf ${deployment_dir} ${working_dir_frontend}'"
       }
     }
   }
