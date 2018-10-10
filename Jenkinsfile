@@ -86,7 +86,9 @@ node {
      working_dir = empa_working_dir
      sshagent(ssh_crendentials) {
             Utils.ssh_exec "'mkdir -p ${tmp_dir}'"
-            sh "scp ./frontend/${filename} ${deployment_user}@${edge_node}:${tmp_dir}"
+            sh "scp ${filename} ${deployment_user}@${edge_node}:${tmp_dir}"
+	    Utils.ssh_exec "'cd ${tmp_dir} && unzip ${filename}'"
+            Utils.ssh_exec "'cd ${tmp_dir} && rm -f *.zip'"
             def new_deployment = sh (returnStdout: true,
                                      script: """ssh ${deployment_user}@${edge_node} bash <<EOF
                                         if [[ \\\$(basename \\\$(readlink ${working_dir})) = 'empa_frontend_green' ]];
@@ -100,6 +102,7 @@ node {
             Utils.ssh_exec "'rm -rf ${deployment_dir}'"
             Utils.ssh_exec "'mkdir ${deployment_dir}'"
             Utils.ssh_exec "'cp -R ${tmp_dir}/* ${deployment_dir}'"
+	    Utils.ssh_exec "'rm -rf ${tmp_dir}'"
             Utils.ssh_exec "'rm -rf ${working_dir}'"
             Utils.ssh_exec "'ln -sf ${deployment_dir} ${working_dir}'"
       }
