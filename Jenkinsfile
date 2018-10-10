@@ -70,7 +70,8 @@ node {
    stage('Build Frontend'){
      filename = "ng_frondend_${commit_id}.zip"
      nodejs(nodeJSInstallationName: 'empa') {
-	  sh "cd ./frontend;npm install"
+	sh "npm -v"  
+	sh "cd ./frontend;npm install"
      }
      sh "./node_modules/.bin/ng build"
      // Keep revision info
