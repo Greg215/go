@@ -69,11 +69,9 @@ node {
 
    stage('Build Frontend'){
      filename = "ng_frondend_${commit_id}.zip"
-     nodejs(nodeJSInstallationName: 'empa') {
-	sh "npm -v"  
-	sh "cd ./frontend;npm install"
-     }
-     sh "./node_modules/.bin/ng build"
+     sh "npm -v"  
+     sh "cd ./frontend;npm install"
+     sh "${WORKSPACE}/empa/frontend/node_modules/.bin/ng build"
      // Keep revision info
      version_file = "${WORKSPACE}/dist/version.txt"
      sh "echo 'Branch:' > ${version_file}"
