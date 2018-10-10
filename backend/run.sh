@@ -1,2 +1,2 @@
 #!/bin/bash
-./api &
+/home/ubuntu/empa/api &
