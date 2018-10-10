@@ -73,7 +73,7 @@ node {
      sh "cd ./frontend;npm install"
      sh "cd ./frontend;./node_modules/.bin/ng build"
      // Keep revision info
-     version_file = "${WORKSPACE}/dist/version.txt"
+     version_file = "${WORKSPACE}/frontend/dist/version.txt"
      sh "echo 'Branch:' > ${version_file}"
      sh "echo ${env.git_path} >> ${version_file}"
      sh "echo 'Revision:' >> ${version_file}"
